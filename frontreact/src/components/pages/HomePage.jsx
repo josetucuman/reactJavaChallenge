@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 
-export default class CreateGuest extends Component {
+export default class componentName extends Component {
   render() {
     return (
       <>
-        Agregando Invitados
+        Home Page
       </>
     )
   }

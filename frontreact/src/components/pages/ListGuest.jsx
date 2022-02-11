@@ -1,25 +1,56 @@
-import React  from 'react'
-import { useQuery } from 'react-query'
-import { getAllGuest } from '../../services/GestServices';
+import React, { useMemo, useState } from 'react'
+import { useTable } from 'react-table/dist/react-table.development';
 
-const ListGuest = ({id}) => {
-        
-        const {data: guests, error, isLoading} = useQuery(["guests"], getAllGuest)
+import { getAllGuest } from '../../services/GuestServices';
+
+import { COLUMNS } from './columns'
+
+const ListGuest = () => {
+  const data = useMemo(() => getAllGuest(), [])
+  const columns = useMemo(() => COLUMNS, [])
+
+
+  const tableInstance = useTable({
+    columns,
+    data: data
+  })
+
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance
 
   return (
-    <div className="row">
-            <div className="col-md-4">Form Guest</div>
-            <div className="col-md-4">
-                    <h3>Guest List</h3>
-                    <ul className="list-group">
-                            {
-                                    guests.map(guest =><li key={guest.id} className="list-group-item list-group-item-action">
-                                            {guest.firstName}
-                                    </li>)
-                            }
-                    </ul>
-            </div>
-    </div>
+    <table{...getTableProps()}>
+      <thead >
+        {
+          headerGroups.map(headerGroup =>(
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map( column =>(
+                <td {...column.getHeadersProps()}>
+                  {
+                    column.render('Header')
+                  }
+                </td>
+              ))}
+            </tr>
+          ))
+        }
+      </thead>
+      <tbody {...getTableBodyProps()}>
+        {rows.map(row =>{
+          prepareRow(row)
+          return(
+            <tr {...row.getRowProps()}>
+              {
+                row.cells.map(cell => {
+                  return <td {...cell.getCellProps()}>{cell.render('cell')}
+                    </td>
+                })
+              }
+            </tr>
+          )
+        })}
+         
+      </tbody>
+    </table>
   )
 }
 

@@ -21,7 +21,7 @@ public class PersonController {
     @Autowired
     private PersonRepository repository;
 
-    @GetMapping("/invitados")
+    @GetMapping("/guests")
     public ResponseEntity<List<Person>> listAllGuests(){
         List<Person> guests =  repository.findAll();
         if(guests.isEmpty())
@@ -45,7 +45,7 @@ public class PersonController {
         return ResponseEntity.unprocessableEntity().build();
     }
 
-    @GetMapping("/invitados/{id}")
+    @GetMapping("/guests/{id}")
     public ResponseEntity<Person>getGuestById(@PathVariable("id") Long idGuest) throws GuestExceptions {
         Person guestID = repository.findById(idGuest).orElseThrow(
                 () -> new GuestExceptions("No existe el invitado con ID ", String.valueOf(idGuest)));
@@ -53,7 +53,7 @@ public class PersonController {
         return new ResponseEntity<>(guestID,HttpStatus.OK);
     }
 
-    @PutMapping("/invitados/{id}")
+    @PutMapping("/guests/{id}")
     public ResponseEntity<Person> updateSomeGuest(@PathVariable("id") Long idGuest,@RequestBody Person guestDetails) throws GuestExceptions {
         Person person = repository.findById(idGuest).orElseThrow(() -> new GuestExceptions("No existe el invitado"));
         person.setFirstName(guestDetails.getFirstName());
@@ -65,7 +65,7 @@ public class PersonController {
         return ResponseEntity.ok(guestUpdated);
     }
 
-    @DeleteMapping("/invitados/{id}")
+    @DeleteMapping("/guests/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteGuest(@PathVariable("id") Long idGuest) throws GuestExceptions {
         Person guestToDelete = repository.findById(idGuest).orElseThrow(
                 () -> new GuestExceptions("No existe ese invitado"));

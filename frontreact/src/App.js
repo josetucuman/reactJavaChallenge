@@ -1,23 +1,25 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
-import Navegacion from "./components/navigation/Navegacion";
-import About from "./components/pages/About";
-import CreateGuest from "./components/pages/CreateGuest";
-import ListGuest from "./components/pages/ListGuest";
-import "bootswatch/dist/lumen/bootstrap.min.css";
+ 
+import { BrowserRouter as Routers, Routes, Route} from 'react-router-dom';
+import './App.css';
+import 'bootswatch/dist/materia/bootstrap.min.css';
+import Navigation from './components/navegation/Navigation';
+import HomePage from './components/pages/HomePage'
+import CreateGuest from './components/pages/CreateGuest'
+import ListGuest from './components/pages/ListGuest';
+
 
 function App() {
   return (
-    <BrowserRouter>
-      <Navegacion />
+    <Routers>
+      <Navigation />
       <Routes>
-        <Route path="/" element={<ListGuest />} />
-        <Route path="/add" element={<CreateGuest />} />
-        <Route path="/list" element={<ListGuest />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/edit/:id" element={<CreateGuest />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/create" element={<CreateGuest />} />
+        <Route path="/list" element={<ListGuest />} />
       </Routes>
-    </BrowserRouter>
+    </Routers>
   );
 }
+
 export default App;
